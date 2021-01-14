@@ -32,6 +32,27 @@ or simply, 2 bytes make the character
 10xxxxxx 10xxxxxx
 
 Now comes the UTF-8, which is nothing but encoding of Unicode Code points
+
+
+
+
+Go's implementation
+
+
+Reader (p []byte) (i int, e error)
+
+Above implementation readers byte from the file and if the byte is lesser than 128 than it is easier to
+decide since this it is an ASCII and take only a byte
+But what if read byte is 198 or 165 then Reader does not know how may more bytes are required to
+be read to form the character
+
+Bufio
+Reader(p []byte) (r rune,i int, e error)
+
+File ---- [] byte of size N read from the file ---- DecodeRune() takes bytes from the []bytes and checks
+whether code is a valid UTF-8 code or not if not then it is incremented by one byte and runes are read again if they
+are valid UTF-8 codes, this goes on till 4 bytes otherwise it is an error (�).
+
 */
 func main() {
 	var x rune = 'A'
